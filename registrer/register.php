@@ -34,7 +34,7 @@
         //if the email is valid
         if (!$sanitizeMail)
             $errors['mail'] = 'You must enter a valid email address.';
-        //not empty password
+        //check if password not empty 
         if (empty($password))
             $errors['password'] = 'Password is mandatory.';
         //password length
