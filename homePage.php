@@ -88,12 +88,9 @@ session_start();
         <hr>
         <p>
             <strong>Category name:</strong>
-            <?= '<a href =movie.php? >"' . $display['title'] . '"  </a>' ?>
+            <?= '<a href =movie.php? >' . $display['title'] . '</a>' . $display['total'] ?>
         </p>
-        <p>
-            <strong>total:</strong>
-            <?= $display['total']  ?>
-        </p>
+
     <?php endforeach; ?>
 
     <?php
