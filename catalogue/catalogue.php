@@ -68,7 +68,7 @@
 
             foreach ($movies as $movie) {
                 echo '<img  height = 200px src="' . $movie['poster'] . '">' . '<br>';
-                echo '#' . $movie['movieId'];
+                echo '#' . $movie['movieId'] . ' ';
                 echo $movie['title'] . '<br>';
                 echo substr($movie['synopsis'], 0, 30) . '...' . '<br>' . '<a href="http://localhost:8888/moviedetails.php?movieId=' . $movie['movieId'] . '">more</a><br><hr>';
             }
