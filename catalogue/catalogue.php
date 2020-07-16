@@ -54,6 +54,23 @@
         $count = mysqli_fetch_assoc($countResult);
         $count = (int) $count['total'];
 
+        //add to the playlist content
+        if (isset($_POST['addMovieToPlaylist'], $_POST['movieId'], $_POST['categories'])) {
+            $playlistId = mysqli_real_escape_string($conn, $_POST['categories']);
+            $songId = mysqli_real_escape_string($conn, $_POST['movieId']);
+
+            $queryAddSong = "INSERT IGNORE INTO playlistContent (playlistId, movieId)
+                            VALUES ('{$playlistId}', '{$songId}');";
+            $result_query_new = mysqli_query($conn, $queryAddSong);
+            if ($result_query_new === false) {
+                echo 'trouble adding' . '<br>';
+            }
+        }
+        if (isset($_POST['modifyMovie'])) {
+            // header("Location: http://localhost:8888/moviedetails.php?movieId=1");
+            header("Location: http://localhost:8888/addMoviePage.php");
+        }
+
         $query = "SELECT * FROM movies
         ORDER BY $orderBy $orderType
         LIMIT $limit OFFSET $offset";
@@ -70,9 +87,41 @@
                 echo '<img  height = 200px src="' . $movie['poster'] . '">' . '<br>';
                 echo '#' . $movie['movieId'] . ' ';
                 echo $movie['title'] . '<br>';
-                echo substr($movie['synopsis'], 0, 30) . '...' . '<br>' . '<a href="http://localhost:8888/moviedetails.php?movieId=' . $movie['movieId'] . '">more</a><br><hr>';
-            }
+                echo substr($movie['synopsis'], 0, 30) . '...' . '<br>' . '<a href="http://localhost:8888/moviedetails.php?movieId=' . $movie['movieId'] . '">more</a><br>';
 
+                // create dropdownlist 
+                $queryNew = "SELECT * FROM playlist";
+                $result_query = mysqli_query($conn, $queryNew);
+
+                if ($result_query) {
+                    $playlists = mysqli_fetch_all($result_query, MYSQLI_ASSOC);
+    ?>
+                    <br>
+                    <form action="" method="post">
+                        <input type="hidden" name="movieId" value="<?= $movie['movieId']; ?>">
+                        <label for="categories">||Add to playlist:</label>
+                        <select name="categories" id="categories">
+                            <?php
+                            foreach ($playlists as $playlist) {
+                                echo "<option value='{$playlist['playlistId']}'>{$playlist['name']}</option>";
+                            }
+                            ?>
+                        </select>
+                    <?php
+                }
+                    ?>
+                    <!-- add button -->
+                    <input type="submit" value="Add" name="addMovieToPlaylist"><br>
+                    <input type="submit" value="Modify Movie" name="modifyMovie"><br>
+                    </form>
+                    <br>
+                    <hr>
+                    <br>
+
+
+                <?php
+
+            }
             $paginationLinks = [];
             $getParams = $_GET;
             if ($page > 1) {
@@ -96,18 +145,18 @@
                 ];
             }
 
-    ?>
-            <div>
-                <?php foreach ($paginationLinks as $link) { ?>
-                    <a href="<?= $link['link']; ?>"><?= $link['title']; ?></a>
-                <?php } ?>
-            </div>
-    <?php
+                ?>
+                <div>
+                    <?php foreach ($paginationLinks as $link) { ?>
+                        <a href="<?= $link['link']; ?>"><?= $link['title']; ?></a>
+                    <?php } ?>
+                </div>
+        <?php
         }
     } else {
         echo 'Problems with connestion';
     };
-    ?>
+        ?>
 
 </body>
 
