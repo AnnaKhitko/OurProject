@@ -1,65 +1,56 @@
 <?php
 session_start();
 
-
-/*if(isset($_SESSION["id"]) && isset($_SESSION["username"])){
-    $userId = $_SESSION['id'];
-    $username = $_SESSION['username'];
-}*/
-
-//$userId= $_GET["playlistId"];///////////
+//$userId= $_GET["playlistId"];
 $userId =2;
 $username = 'dora';
 $done='';
 $update = false;
 $name ='';
 ///// connection to database : 
+
 include_once 'database.php';
-$connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, 'movieProject', '8889');
+$conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, 'movieProject', '8889');
 
-$query = "SELECT * FROM playlist";
-$result_query = mysqli_query($connection, $query);
-$playlists = mysqli_fetch_all($result_query, MYSQLI_ASSOC);
+if($conn){
 
-if(isset($_GET['delete'])){
-    //$query = "DELETE FROM playlist WHERE playlistId='".$_GET["playlistId"]."'";
-    $query = "DELETE FROM playlist WHERE playlistId='".$_GET["delete"]."'";
+    $query = "SELECT * FROM playlist";
     $result_query = mysqli_query($connection, $query);
-}
-
-///edit 
-if(isset($_GET['edit'])){
-    $edit = $_GET["edit"];
-    $update = true;
-    $record = mysqli_query($connection, "SELECT * FROM playlist WHERE playlistId='".$_GET["edit"]."'");
-    //var_dump("SELECT * FROM playlist WHERE playlistId='".$_GET["edit"]."'");
-
-    $modifiedPlaylist = mysqli_fetch_array($record);
-    $name = $modifiedPlaylist['name'];
-}
-if(isset($_POST['edit'])){
-    $record = mysqli_query($connection, "UPDATE  playlist SET name='".$name."' WHERE playlistId='".$_GET["edit"]."'");
-    header("Location : playlist.php");
-}
-
-
-/////// submit form :  create new playlist 
-
-if(isset($_POST['submit'])){
-$error = array();
-$playlist = $_POST['playlistName'];
-if(!$playlist){
-        echo $error [] = "You need to fill the form"; 
-    }else{
-        if($connection){
-            $query = "INSERT INTO playlist(name, date, userId) VALUES('$playlist', now(), '$userId')";
-            $result_query = mysqli_query($connection, $query);
-            $result = mysqli_affected_rows($connection);
-            if($result){
-                $done ='playlist saved';
+    $playlists = mysqli_fetch_all($result_query, MYSQLI_ASSOC);
+    
+    if(isset($_GET['delete'])){
+        $query = "DELETE FROM playlist WHERE playlistId='".$_GET["delete"]."'";
+        $result_query = mysqli_query($connection, $query);
+    }
+    ///edit 
+    if(isset($_GET['edit'])){
+        $edit = $_GET["edit"];
+        $update = true;
+        $record = mysqli_query($connection, "SELECT * FROM playlist WHERE playlistId='".$_GET["edit"]."'");
+    
+        $modifiedPlaylist = mysqli_fetch_array($record);
+        $name = $modifiedPlaylist['name'];
+    }
+    if(isset($_POST['edit'])){
+        $record = mysqli_query($connection, "UPDATE  playlist SET name='".$name."' WHERE playlistId='".$_GET["edit"]."'");
+        
+    }
+    if(isset($_POST['submit'])){
+    $error = array();
+    $playlist = $_POST['playlistName'];
+    if(!$playlist){
+            echo $error [] = "You need to fill the form"; 
+        }else{
+            if($connection){
+                $query = "INSERT INTO playlist(name, date, userId) VALUES('$playlist', now(), '$userId')";
+                $result_query = mysqli_query($connection, $query);
+                $result = mysqli_affected_rows($connection);
+                if($result){
+                    $done ='playlist saved';
+                }
             }
+            mysqli_close($connection);
         }
-        mysqli_close($connection);
     }
 }
 ?>
@@ -183,11 +174,14 @@ span {
 
 <form action="" method="POST">
     <div class="input-group">
+        
         <input type="text"  name="playlistName" value="<?= $name; ?>" >
         <?php if ($update == true): ?>
-	        <button class="btn" type="submit" name="submit" style="background: #556B2F;" >Edit</button>
+            <label for="create">Modify playlist</label>
+	        <button class="btn" id="create" type="submit" name="submit" style="background: #556B2F;" >Edit</button>
         <?php else: ?>
-	        <button class="btn" type="submit" name="submit" >Save</button>
+            <label for="savePlaylist">Create new playlist</label>
+	        <button class="btn" id="savePlaylist" type="submit" name="submit" >Save</button>
         <?php endif ?>
     </div>
 </form>
