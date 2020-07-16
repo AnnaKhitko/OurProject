@@ -70,7 +70,7 @@
                 echo '<img  height = 200px src="' . $movie['poster'] . '">' . '<br>';
                 echo '#' . $movie['movieId'];
                 echo $movie['title'] . '<br>';
-                echo substr($movie['synopsis'], 0, 30) . '...' . '<br>' . '<a href="http://localhost:8888/PHP/DB_ex/Movie_Ex_4.php?movieId=' . $movie['movieId'] . '">more</a><br><hr>';
+                echo substr($movie['synopsis'], 0, 30) . '...' . '<br>' . '<a href="http://localhost:8888/moviedetails.php?movieId=' . $movie['movieId'] . '">more</a><br><hr>';
             }
 
             $paginationLinks = [];
