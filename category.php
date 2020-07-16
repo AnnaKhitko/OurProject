@@ -16,29 +16,28 @@
     require_once 'database.php';
     $conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, 'movieProject', '8889');
 
-
-    $message =array();
 if ($conn) {
-    if(isset($_POST["submit"])){
+    //create new category:
+    if(isset($_POST["create"])){
         $newCateg = htmlspecialchars($_POST["newCateg"]);
         if(!empty($newCateg)){
             $resultAddCateg = mysqli_query($conn, "INSERT IGNORE INTO category (title) VALUES ('$newCateg')");
-           echo  $message[] = "Done !";
+           echo   "Done !";
         }
         else {
-           echo $message[] = "you need to fill the form ";
-        }
-        
+           echo  "you need to fill the form ";
+        } 
     }
-    if (isset($_POST['addSongToPlaylist'], $_POST['songId'])){
-        $playlistId = mysqli_real_escape_string($conn, $_POST['categories']);
-        $songId = mysqli_real_escape_string($conn, $_POST['songId']);
+    //////
+    ////modify categ 
+    if(isset($_POST["modifyCateg"])){
+        $query = "UPDATE category set title ='".$_POST["textCateg"]."' WHERE categId='".$_POST["categories"]."'"; 
+    }
+////////////////
 
-    }
     $result_query = mysqli_query($conn, "SELECT * FROM category");
     if ($result_query) {
         $category = mysqli_fetch_all($result_query, MYSQLI_ASSOC);
-        var_dump($category);
     ?>
         <br>
         <form action="" method="post">
@@ -51,16 +50,17 @@ if ($conn) {
                 }
                 ?>
             </select>
-        <?php
+    <?php
     }
 }
     ?>
     <!-- add button -->
-    <input type="submit" value="modify" name="modifyCateg">
-    </form>
-    <br>
+            <input type="submit" value="modify" name="modifyCateg">
+            <input type="text" name="textCateg">
+        </form>
+        <br>
 
     <form action="" method="POST">
         <input type="text" name="newCateg">
-        <input type="submit" name="submit" value="create">
+        <input type="submit" name="create" value="create">
     </form>
