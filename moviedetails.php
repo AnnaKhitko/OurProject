@@ -19,7 +19,7 @@
 <?php
 //connect to the DB
 require_once 'database.php';
-$conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, 'movieProject', '8889');
+$conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
 
 if ($conn) {
 

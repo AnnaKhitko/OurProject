@@ -13,7 +13,7 @@ session_start();
 <body>
 
     <!--Add the nav bar inside the php : Require_once-->
-
+    <?php require_once 'navbar.php'; ?>
     <form action="searchMovie.php" method="post">
         <!--Introduction text for the page-->
         <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -70,7 +70,7 @@ session_start();
 
     require_once 'database.php';
     // connecting to the DBMS
-    $conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
+    $conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
 
     if ($conn) {
 

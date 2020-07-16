@@ -20,7 +20,7 @@ session_start();
     // require_once 'navbar.php';
     require_once 'database.php';
     // connecting to the DBMS
-    $conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
+    $conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
 
 
     ?>
