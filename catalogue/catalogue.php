@@ -66,10 +66,6 @@
                 echo 'trouble adding' . '<br>';
             }
         }
-        if (isset($_POST['modifyMovie'])) {
-            echo '<a href="http://localhost:8888/addMoviePage.php?edit=' . $movie['movieId'] . '">' . $movie['title'] . '</a>' . '<br>';
-            // header("Location: http://localhost:8888/addMoviePage.php?edit={$movies['movieId']}");
-        }
 
         $query = "SELECT * FROM movies
         ORDER BY $orderBy $orderType
@@ -79,15 +75,13 @@
 
         if ($result) {
             $movies = mysqli_fetch_all($result, MYSQLI_ASSOC);
-            // echo '<pre>';
-            // var_dump($movies);
-            // echo '</pre>';
 
             foreach ($movies as $movie) {
                 echo '<img  height = 200px src="' . $movie['poster'] . '">' . '<br>';
                 echo '#' . $movie['movieId'] . ' ';
                 echo $movie['title'] . '<br>';
                 echo substr($movie['synopsis'], 0, 30) . '...' . '<br>' . '<a href="http://localhost:8888/moviedetails.php?movieId=' . $movie['movieId'] . '">more</a><br>';
+                echo '<a href="http://localhost:8888/addMoviePage.php?edit=' . $movie['movieId'] . '"> Modify</a>';
 
                 // create dropdownlist 
                 $queryNew = "SELECT * FROM playlist";
@@ -112,7 +106,6 @@
                     ?>
                     <!-- add button -->
                     <input type="submit" value="Add" name="addMovieToPlaylist"><br>
-                    <input type="submit" value="Modify Movie" name="modifyMovie"><br>
                     </form>
                     <br>
                     <hr>
