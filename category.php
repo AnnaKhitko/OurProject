@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <?php //require_once 'navbar.php'; ?>
+
+    <?php require_once 'navbar.php'; ?>
     <h1>Category</h1>
     <?php
     //connect to the DB
