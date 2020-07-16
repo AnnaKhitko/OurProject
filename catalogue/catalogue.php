@@ -67,8 +67,8 @@
             }
         }
         if (isset($_POST['modifyMovie'])) {
-            // header("Location: http://localhost:8888/moviedetails.php?movieId=1");
-            header("Location: http://localhost:8888/addMoviePage.php");
+            echo '<a href="http://localhost:8888/addMoviePage.php?edit=' . $movie['movieId'] . '">' . $movie['title'] . '</a>' . '<br>';
+            // header("Location: http://localhost:8888/addMoviePage.php?edit={$movies['movieId']}");
         }
 
         $query = "SELECT * FROM movies
