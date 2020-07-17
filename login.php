@@ -1,7 +1,8 @@
 <?php
-
+session_start();
 $errors = array();
 $error = '';
+
 
 if (isset($_POST['submit'])) {
     $login = false;
@@ -30,28 +31,29 @@ if (isset($_POST['submit'])) {
         if (!empty($user)) {
             //$passwordVerified = password_verify($password, $user['password']);
             if ($password) {
-
                 $login = true;
                 $_SESSION['email'] = $filterdMail;
                 $_SESSION['username'] = $user['name'];
                 $_SESSION['id'] = $user["userId"];
+                header('Location:homePage.php');
             } else {
-                $errors[] = "Wrong pqssword !";
+                $errors[] = "Wrong password !";
             }
         } else {
             $errors[] = 'User with this address email doesnt exists.';
         }
+    }
+    if ($login) {
+        echo 'welcome ! ';
+    } else {
+        echo 'try again';
     }
 }
 
 if (count($errors) > 0) {
     $error = implode('<br>', $errors);
 }
-if ($login) {
-    echo 'welcome ! ';
-} else {
-    echo 'try again';
-}
+
 
 ?>
 
